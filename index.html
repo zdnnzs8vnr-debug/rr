@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+<title>GUSTAVOEURO — Banconote Euro AAA+ · PayPal Anonimo · Crypto</title>
+<meta name="description" content="GUSTAVOEURO EST.2022 — Banconote Euro Grade AAA+, trasferimenti PayPal P2P anonimi via exchange terzi, pagamenti crypto SOL/BTC/LTC. Trust center, firme PGP, hash di verifica."/>
+<meta name="theme-color" content="#05060d"/>
+<meta name="color-scheme" content="dark"/>
+<meta name="author" content="GUSTAVOEURO"/>
+<meta name="robots" content="index,follow"/>
+<meta property="og:title" content="GUSTAVOEURO — Nodo Attivo"/>
+<meta property="og:description" content="Banconote Euro Grade AAA+ · PayPal P2P anonimo · Crypto"/>
+<meta property="og:type" content="website"/>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%2305060d'/%3E%3Ctext x='32' y='46' font-size='38' text-anchor='middle' fill='%23ffb020' font-family='monospace'%3E%E2%82%AC%3C/text%3E%3C/svg%3E"/>
+<link rel="manifest" href="manifest.webmanifest"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+/* ===================== PALETTE ===================== */
+:root{
+  --bg:#05060d; --fg:#eef0f8; --surface:#0b0d17; --panel:#12141f; --line:#1d2130;
+  --au:#ffb020; --bl:#3d7bff; --tl:#14e0b0; --mg:#ff3d9a; --rs:#ff5c5c;
+  --sol:#14e0b0; --btc:#ffb020; --ltc:#3d7bff;
+  --hd:56px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; background:var(--bg); color:var(--fg);
+  font-family:'Space Grotesk',system-ui,-apple-system,sans-serif;
+  overflow-x:hidden; -webkit-font-smoothing:antialiased;
+}
+.mono{font-family:'JetBrains Mono',ui-monospace,SFMono-Regular,monospace}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer}
+::selection{background:var(--au);color:#05060d}
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-track{background:#07080f}
+::-webkit-scrollbar-thumb{background:linear-gradient(#1d2130,#2a3044);border-radius:8px}
+
+/* ===================== SFONDO (NON .bg -> .bgfx) ===================== */
+.bgfx{
+  position:fixed; inset:0; z-index:0; pointer-events:none;
+  background:
+    radial-gradient(1200px 620px at 8% -12%, rgba(61,123,255,.16), transparent 62%),
+    radial-gradient(1000px 520px at 100% 0%, rgba(255,61,154,.13), transparent 58%),
+    radial-gradient(900px 720px at 50% 112%, rgba(20,224,176,.11), transparent 62%),
+    var(--bg);
+}
+.bgfx::before{
+  content:''; position:absolute; inset:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+  background-size:46px 46px;
+  -webkit-mask-image:radial-gradient(circle at 50% 28%, #000 38%, transparent 86%);
+  mask-image:radial-gradient(circle at 50% 28%, #000 38%, transparent 86%);
+}
+.bgfx::after{
+  content:''; position:absolute; inset:0;
+  background:repeating-linear-gradient(to bottom, rgba(255,255,255,.022) 0 1px, transparent 1px 3px);
+}
+.vignette{
+  position:fixed;inset:0;z-index:2;pointer-events:none;
+  background:radial-gradient(120% 100% at 50% 50%, transparent 55%, rgba(0,0,0,.55) 100%);
+}
+.wrap{position:relative; z-index:1}
+
+/* ===================== CARD / PANEL ===================== */
+.card{
+  position:relative; opacity:1;
+  background:linear-gradient(160deg, rgba(18,20,31,.94), rgba(11,13,23,.94));
+  border:1px solid var(--line); border-radius:14px;
+}
+.card.soft{background:linear-gradient(160deg, rgba(13,15,26,.9), rgba(8,10,18,.9))}
+.hairline{border-top:1px solid var(--line)}
+.brk{color:var(--c,var(--au))}
+.brk::before{content:'[';color:var(--c,var(--au));opacity:.9}
+.brk::after{content:']';color:var(--c,var(--au));opacity:.9}
+
+.chip{
+  display:inline-flex;align-items:center;gap:6px;
+  border:1px solid var(--line); background:rgba(255,255,255,.03);
+  border-radius:999px; padding:3px 10px; font-size:11px; letter-spacing:.06em;
+  text-transform:uppercase; color:#b9c0d6;
+}
+.badge{
+  display:inline-flex;align-items:center;gap:6px;
+  border-radius:6px; padding:3px 8px; font-size:10px; letter-spacing:.12em;
+  text-transform:uppercase; font-weight:700; border:1px solid;
+}
+
+/* ===================== BOTTONI ===================== */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  border-radius:10px;padding:11px 18px;font-size:13px;font-weight:700;
+  letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--line);
+  background:rgba(255,255,255,.03);color:var(--fg);transition:.18s;
+}
+.btn:hover{background:rgba(255,255,255,.08);transform:translateY(-1px)}
+.btn-au{background:linear-gradient(135deg,var(--au),#ff8c00);color:#0a0b12;border-color:transparent;box-shadow:0 8px 26px -12px rgba(255,176,32,.8)}
+.btn-tl{background:linear-gradient(135deg,var(--tl),#0aa886);color:#04120f;border-color:transparent}
+.btn-bl{background:linear-gradient(135deg,var(--bl),#2b5ce0);color:#fff;border-color:transparent}
+.btn-gh{background:transparent}
+.btn[disabled]{opacity:.45;cursor:not-allowed;transform:none}
+
+/* ===================== HEADER ===================== */
+.sysbar{
+  position:fixed;top:0;left:0;right:0;z-index:41;height:26px;
+  display:flex;align-items:center;gap:14px;padding:0 12px;
+  font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;
+  background:rgba(5,6,13,.92);border-bottom:1px solid var(--line);color:#8b93ab;
+  backdrop-filter:blur(6px);
+}
+.hdr{
+  position:fixed;top:26px;left:0;right:0;z-index:40;height:var(--hd);
+  display:flex;align-items:center;gap:14px;padding:0 14px;
+  background:rgba(5,6,13,.86);border-bottom:1px solid var(--line);
+  backdrop-filter:blur(10px);
+}
+.hdr.on{box-shadow:0 12px 40px -22px #000}
+.navlink{
+  position:relative;padding:6px 2px;font-size:12px;letter-spacing:.1em;
+  text-transform:uppercase;color:#9aa2ba;transition:.16s;
+}
+.navlink:hover{color:var(--fg)}
+.navlink.act{color:var(--au)}
+.navlink.act::after{content:'';position:absolute;left:0;right:0;bottom:-2px;height:2px;background:linear-gradient(90deg,var(--au),var(--mg));border-radius:2px}
+
+/* ===================== MENU MOBILE ===================== */
+.menu{
+  position:fixed;inset:0;z-index:90;background:rgba(5,6,13,.98);
+  display:flex;flex-direction:column;justify-content:center;padding:80px 24px;
+  animation:menuIn .28s ease;
+}
+@keyframes menuIn{from{opacity:0;transform:scale(1.03)}to{opacity:1;transform:none}}
+.mlink{font-size:26px;font-weight:700;letter-spacing:.04em;padding:12px 0;border-bottom:1px solid var(--line)}
+
+/* ===================== DRAWER / MODAL ===================== */
+.scrim{position:fixed;inset:0;z-index:60;background:rgba(3,4,9,.72);animation:fade .2s}
+.drawer{
+  position:fixed;top:0;right:0;bottom:0;z-index:61;width:min(440px,100%);
+  background:var(--surface);border-left:1px solid var(--line);
+  display:flex;flex-direction:column;animation:slideIn .26s cubic-bezier(.2,.8,.2,1);
+}
+@keyframes slideIn{from{transform:translateX(100%)}to{transform:none}}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+.modal{
+  position:fixed;z-index:71;left:50%;top:50%;transform:translate(-50%,-50%);
+  width:min(760px,92vw);max-height:88vh;overflow:auto;
+  background:var(--surface);border:1px solid var(--line);border-radius:16px;
+  animation:pop .24s cubic-bezier(.2,.8,.2,1);
+}
+@keyframes pop{from{opacity:0;transform:translate(-50%,-46%) scale(.97)}to{opacity:1;transform:translate(-50%,-50%) scale(1)}}
+.lightbox{position:fixed;inset:0;z-index:100;background:rgba(2,3,7,.97);display:flex;align-items:center;justify-content:center;animation:fade .2s}
+
+.fab{position:fixed;right:18px;bottom:18px;z-index:45}
+
+/* ===================== EFFETTI ===================== */
+.scanline{position:relative;overflow:hidden}
+.scanline::after{
+  content:'';position:absolute;left:0;right:0;height:2px;top:0;
+  background:linear-gradient(90deg,transparent,var(--tl),transparent);
+  animation:scan 2.6s linear infinite;opacity:.8;
+}
+@keyframes scan{0%{top:0}100%{top:100%}}
+.live{width:7px;height:7px;border-radius:50%;background:var(--rs);box-shadow:0 0 0 0 rgba(255,92,92,.7);animation:pulse 1.6s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(255,92,92,.6)}70%{box-shadow:0 0 0 9px rgba(255,92,92,0)}100%{box-shadow:0 0 0 0 rgba(255,92,92,0)}}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--tl);box-shadow:0 0 8px var(--tl)}
+.glitch{position:relative;display:inline-block}
+.glitch::before,.glitch::after{content:attr(data-t);position:absolute;left:0;top:0;width:100%;overflow:hidden}
+.glitch::before{color:var(--mg);clip-path:inset(0 0 55% 0);animation:gl1 3.4s infinite linear alternate}
+.glitch::after{color:var(--tl);clip-path:inset(58% 0 0 0);animation:gl2 2.7s infinite linear alternate}
+@keyframes gl1{0%,88%,100%{transform:none}90%{transform:translate(-2px,-1px)}94%{transform:translate(2px,1px)}}
+@keyframes gl2{0%,86%,100%{transform:none}89%{transform:translate(2px,1px)}93%{transform:translate(-2px,-1px)}}
+
+.grad-au{background:linear-gradient(100deg,var(--au),var(--mg) 55%,var(--bl));-webkit-background-clip:text;background-clip:text;color:transparent}
+.grad-tl{background:linear-gradient(100deg,var(--tl),var(--bl) 60%,var(--mg));-webkit-background-clip:text;background-clip:text;color:transparent}
+
+.marquee{overflow:hidden;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:rgba(8,10,18,.7)}
+.marquee>div{display:inline-flex;gap:30px;white-space:nowrap;animation:marq 42s linear infinite;padding:9px 0;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#8b93ab}
+@keyframes marq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+.term{background:#07090f;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.termbar{display:flex;align-items:center;gap:6px;padding:8px 10px;border-bottom:1px solid var(--line);background:rgba(255,255,255,.02)}
+.termdot{width:9px;height:9px;border-radius:50%}
+
+.radar{
+  width:96px;height:96px;border-radius:50%;position:relative;
+  border:1px solid var(--line);
+  background:
+    radial-gradient(circle, rgba(20,224,176,.09), transparent 70%),
+    repeating-radial-gradient(circle, rgba(255,255,255,.07) 0 1px, transparent 1px 15px),
+    #07090f;
+  overflow:hidden;
+}
+.radar::after{
+  content:'';position:absolute;inset:0;border-radius:50%;
+  background:conic-gradient(from 0deg, rgba(20,224,176,.42), transparent 26%);
+  animation:sweep 3.4s linear infinite;
+}
+@keyframes sweep{to{transform:rotate(360deg)}}
+.radar::before{content:'';position:absolute;left:50%;top:50%;width:5px;height:5px;margin:-2.5px;border-radius:50%;background:var(--tl);box-shadow:0 0 10px var(--tl);z-index:2}
+
+.sigbars{display:flex;align-items:flex-end;gap:3px;height:22px}
+.sigbars i{width:4px;background:linear-gradient(var(--tl),var(--bl));border-radius:2px;animation:sg 1.5s ease-in-out infinite}
+@keyframes sg{0%,100%{transform:scaleY(.35)}50%{transform:scaleY(1)}}
+
+.hexstream{font-size:10px;line-height:1.55;color:#2f6b58;word-break:break-all}
+.glow-au{box-shadow:0 0 0 1px rgba(255,176,32,.25), 0 14px 44px -20px rgba(255,176,32,.55)}
+.glow-tl{box-shadow:0 0 0 1px rgba(20,224,176,.22), 0 14px 44px -20px rgba(20,224,176,.5)}
+
+.routeflash{position:fixed;inset:0;z-index:95;pointer-events:none;background:linear-gradient(90deg,transparent,rgba(20,224,176,.12),transparent);animation:rf .4s ease forwards}
+@keyframes rf{from{opacity:0;transform:translateX(-30%)}40%{opacity:1}to{opacity:0;transform:translateX(30%)}}
+
+.step{display:flex;align-items:center;gap:10px;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#7c85a0}
+.step.act{color:var(--au)}
+.step.done{color:var(--tl)}
+.stepnum{width:26px;height:26px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;font-size:11px;font-weight:700}
+
+.inp{
+  width:100%;background:#080a12;border:1px solid var(--line);border-radius:10px;
+  padding:11px 12px;color:var(--fg);font-size:13px;outline:none;transition:.16s;
+}
+.inp:focus{border-color:var(--au);box-shadow:0 0 0 3px rgba(255,176,32,.12)}
+.inp.err{border-color:var(--rs);box-shadow:0 0 0 3px rgba(255,92,92,.12)}
+.lbl{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:#8b93ab;margin-bottom:6px;display:block}
+
+.progress{height:6px;border-radius:6px;background:#141828;overflow:hidden}
+.progress>i{display:block;height:100%;background:linear-gradient(90deg,var(--tl),var(--bl));transition:width .4s}
+
+.crt{background:linear-gradient(#0b0d17,#0b0d17) padding-box,linear-gradient(120deg,var(--au),var(--mg),var(--bl)) border-box;border:1px solid transparent}
+
+.galitem{cursor:pointer;transition:.22s;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#080a12}
+.galitem:hover{transform:translateY(-3px);border-color:var(--au)}
+
+@media (max-width:900px){
+  .navdesk{display:none}
+}
+@media (min-width:901px){
+  .navmob{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.001s !important;animation-iteration-count:1 !important}
+}
+</style>
+
+<!-- ===================== REACT 18 + FALLBACK document.write ===================== -->
+<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin></script>
+<script>window.React||document.write('<script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"><\/script>');</script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin></script>
+<script>window.ReactDOM||document.write('<script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"><\/script>');</script>
+<script src="https://unpkg.com/@babel/standalone@7.25.6/babel.min.js"></script>
+<script>window.Babel||document.write('<script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7.25.6/babel.min.js"><\/script>');</script>
+</head>
+
+<body>
+<div id="root"></div>
+
+<!-- ===================== BOOT ERROR OVERLAY (mai pagina nera) ===================== -->
+<div id="booterr" style="display:none;position:fixed;inset:0;z-index:200;background:#05060d;color:#eef0f8;font-family:'JetBrains Mono',monospace;padding:26px;overflow:auto">
+  <div style="max-width:820px;margin:6vh auto;border:1px solid #2a1b1b;border-radius:14px;background:#0b0d17;padding:22px">
+    <div style="color:#ff5c5c;font-size:12px;letter-spacing:.18em;text-transform:uppercase">// BOOT ERROR</div>
+    <div id="booterr-msg" style="margin:14px 0 18px;font-size:14px;line-height:1.6;color:#d8dce8"></div>
+    <div id="booterr-detail" style="font-size:11px;color:#8b93ab;word-break:break-word;line-height:1.6"></div>
+    <div style="margin-top:20px;display:flex;gap:10px;flex-wrap:wrap">
+      <button onclick="location.reload()" style="background:#ffb020;color:#0a0b12;border:0;border-radius:9px;padding:10px 16px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;font-size:12px">Ricarica nodo</button>
+      <button onclick="location.hash='#/';location.reload()" style="background:transparent;color:#eef0f8;border:1px solid #1d2130;border-radius:9px;padding:10px 16px;font-size:12px;letter-spacing:.06em;text-transform:uppercase">Reset rotta</button>
+      <button onclick="try{sessionStorage.clear()}catch(e){};location.reload()" style="background:transparent;color:#eef0f8;border:1px solid #1d2130;border-radius:9px;padding:10px 16px;font-size:12px;letter-spacing:.06em;text-transform:uppercase">Pulisci sessione</button>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  function show(msg, detail){
+    var el=document.getElementById('booterr'); if(!el) return;
+    document.getElementById('booterr-msg').textContent=msg;
+    document.getElementById('booterr-detail').textContent=detail||'';
+    el.style.display='block';
+  }
+  window.__GE_SHOW_ERR=show;
+  window.addEventListener('error',function(e){
+    if(window.__GE_MOUNTED) return;
+    show('Errore runtime durante il bootstrap.',''+(e.message||e.error||'')+' @ '+(e.filename||'')+':'+(e.lineno||''));
+  });
+  window.addEventListener('unhandledrejection',function(e){
+    if(window.__GE_MOUNTED) return;
+    show('Promise rifiutata durante il bootstrap.',''+(e.reason&&e.reason.message||e.reason||''));
+  });
+  setTimeout(function(){
+    if(!window.__GE_MOUNTED){
+      show('React non ha montato entro 8 secondi.','Verifica connessione ai CDN (unpkg / jsdelivr) oppure apri i file in locale. Se hai un adblock aggressivo, whitelistali.');
+    }
+  },8000);
+})();
+</script>
+
+<script type="text/babel" data-presets="react">
+/* ==========================================================================
+   GUSTAVOEURO — v4 · single file app
+   ========================================================================== */
+const {useState,useEffect,useRef,useMemo,useCallback,createContext,useContext,Component,Fragment}=React;
+
+/* ------------------------------ STORAGE SAFE ------------------------------ */
+const store={
+  get(k,d){try{const v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}},
+  set(k,v){try{localStorage.setItem(k,v)}catch(e){}},
+  jget(k,d){try{const v=localStorage.getItem(k);if(!v)return d;const p=JSON.parse(v);return p==null?d:p}catch(e){return d}},
+  jset(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}},
+  sget(k,d){try{const v=sessionStorage.getItem(k);return v===null?d:v}catch(e){return d}},
+  sset(k,v){try{sessionStorage.setItem(k,v)}catch(e){}}
+};
+
+/* ------------------------------ HASH UTILS ------------------------------ */
+function h32(str){let h=2166136261>>>0;const s=String(str);for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)>>>0}return h>>>0}
+function hx(n,l){return (n>>>0).toString(16).padStart(l||8,'0')}
+function hashHex(s,len){let o='';let seed=h32(s);const L=len||64;while(o.length<L){seed=h32(seed+o.length+String(s));o+=hx(seed,8)}return o.slice(0,L)}
+function rand4(){return Math.random().toString(36).toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,4).padEnd(4,'X')}
+function uid(){return hx(h32(Date.now()+Math.random()),8)+'-'+hx(h32(Math.random()),4)}
+
+/* ==========================================================================
+   FOTO — BLOCCO UNICO IN CIMA (modifica qui in 10 secondi)
+   ========================================================================== */
+const PHOTO={
+  eur10:{ main:'note10.png', gallery:['note10.png'],
+          fallbacks:['https://i.ibb.co/9mwGD10w/IMG-4949.jpg'] },
+  eur20:{
+    main:'https://i.ibb.co/9mwGD10w/IMG-4949.jpg',
+    gallery:[
+      'https://i.ibb.co/9mwGD10w/IMG-4949.jpg',
+      'https://i.ibb.co/rKysvGxB/IMG-4954.gif',
+      'https://i.ibb.co/35LCKPHm/IMG-4951.jpg',
+      'https://i.ibb.co/6J066JyY/IMG-4953.gif'
+    ]
+  },
+  eur50:{
+    main:'https://i.ibb.co/dwBt6Q78/IMG-4956.jpg',
+    gallery:[
+      'https://i.ibb.co/dwBt6Q78/IMG-4956.jpg',
+      'https://i.ibb.co/vxQQwt6Y/IMG-4958.gif',
+      'https://i.ibb.co/xqvq97nX/IMG-4957.jpg',
+      'https://i.ibb.co/67ZKnsjB/IMG-4960.gif',
+      'https://i.ibb.co/Y74wt404/IMG-4959.gif'
+    ]
+  },
+  qr:{ SOL:'qr-sol.png', BTC:'qr-btc.png', LTC:'qr-ltc.png' },
+  fallbacks:['https://i.ibb.co/9mwGD10w/IMG-4949.jpg',
+             'https://i.ibb.co/dwBt6Q78/IMG-4956.jpg']
+};
+const photoOf=(denom)=>({main:PHOTO['eur'+denom].main, fallbacks:(PHOTO['eur'+denom].fallbacks||[]).concat(PHOTO.fallbacks)});
+
+/* ==========================================================================
+   CRYPTO — SOL / BTC / LTC
+   ========================================================================== */
+const CRYPTO={
+  SOL:{sym:'SOL',name:'Solana',net:'Solana Mainnet',addr:'ERCWJYLgWsta7REn2yraMwPM6ou615xSmb1HHd5hyFX',exp:'https://solscan.io/account/',c:'--sol',conf:2,time:'~15 s',memo:true,rate:168,logo:'◎'},
+  BTC:{sym:'BTC',name:'Bitcoin',net:'Bitcoin On-chain',addr:'bc1qqhwa4u3kusd3tnr8q3mej83n66eftwglfg477d',exp:'https://mempool.space/address/',c:'--btc',conf:2,time:'~20 min',memo:false,rate:63500,logo:'₿'},
+  LTC:{sym:'LTC',name:'Litecoin',net:'Litecoin On-chain',addr:'ltc1qea82qy0kn8v977a7x8ek49dzpanenhm6la9dpe',exp:'https://blockchair.com/litecoin/address/',c:'--ltc',conf:3,time:'~5 min',memo:false,rate:88,logo:'Ł'}
+};
+const qrUrl=(s)=>'https://api.qrserver.com/v1/create-qr-code/?size=400x400&data='+encodeURIComponent(CRYPTO[s].addr);
+
+/* ==========================================================================
+   PRODOTTI
+   ========================================================================== */
+const PRODUCTS=[
+  /* --- BANCONOTE 20 EUR --- */
+  {id:'n20-25', tag:'25', kind:'cash', denom:20, pieces:25, price:275, badge:'ENTRY LEVEL', c:'--tl', name:'p_b20_25', desc:'d_b20_25'},
+  {id:'n20-75', tag:'75', kind:'cash', denom:20, pieces:75, price:795, badge:'SCORTA OPERATIVA', c:'--bl', name:'p_b20_75', desc:'d_b20_75'},
+  {id:'n20-200', tag:'200', kind:'cash', denom:20, pieces:200, price:2050, badge:'VOLUME INDUSTRIALE', c:'--mg', name:'p_b20_200', desc:'d_b20_200'},
+  /* --- BANCONOTE 50 EUR --- */
+  {id:'n50-15', tag:'15', kind:'cash', denom:50, pieces:15, price:390, badge:'PACK STARTER 50', c:'--tl', name:'p_b50_15', desc:'d_b50_15'},
+  {id:'n50-50', tag:'50', kind:'cash', denom:50, pieces:50, price:1250, badge:'BANK RESERVE', c:'--bl', name:'p_b50_50', desc:'d_b50_50'},
+  {id:'n50-150', tag:'150', kind:'cash', denom:50, pieces:150, price:3650, badge:'POTERE DI SMERCIO ASSOLUTO', c:'--mg', name:'p_b50_150', desc:'d_b50_150'},
+  /* --- PAYPAL --- */
+  {id:'pp-ase', tag:'120', kind:'paypal', pay:120, recv:250, price:120, badge:'ASE', c:'--bl', name:'pp_ase', desc:'pd_ase'},
+  {id:'pp-adv', tag:'200', kind:'paypal', pay:200, recv:450, price:200, badge:'ADVANCED', c:'--tl', name:'pp_adv', desc:'pd_adv'},
+  {id:'pp-vip', tag:'300', kind:'paypal', pay:300, recv:700, price:300, badge:'VIP', c:'--au', name:'pp_vip', desc:'pd_vip'},
+  {id:'pp-prem', tag:'450', kind:'paypal', pay:450, recv:1100, price:450, badge:'PREMIUM', c:'--mg', name:'pp_prem', desc:'pd_prem'},
+  {id:'pp-elite', tag:'700', kind:'paypal', pay:700, recv:1800, price:700, badge:'ELITE', c:'--bl', name:'pp_elite', desc:'pd_elite'},
+  {id:'pp-master', tag:'1000', kind:'paypal', pay:1000, recv:2800, price:1000, badge:'MASTER', c:'--rs', name:'pp_master', desc:'pd_master'}
+];
+const byId=(id)=>PRODUCTS.find(p=>p.id===id);
+
+/* ==========================================================================
+   IDENTITÀ
+   ========================================================================== */
+const ID={
+  tg:'https://t.me/gustavoeuro',
+  channel:'https://t.me/+gBf54xWnFapjMmRh',
+  pgp:'7B3F 9A21 C4E8 5D06 1F77  8AC2 30B9 4E11',
+  onion:'gustavoeuro7x2k.onion',
+  couriers:['POSTE ITALIANE','BRT','GLS','DHL','LOCKER INPOST'],
+  prefixes:['+39','+34','+33','+44','+49','+41','+43','+351','+32','+31','+1']
+};
+
+/* ==========================================================================
+   LINGUE
+   ========================================================================== */
+const LANGS=['it','en','es','de','fr'];
+const FLAG={it:'🇮🇹',en:'🇬🇧',es:'🇪🇸',de:'🇩🇪',fr:'🇫🇷'};
+const LNAME={it:'Italiano',en:'English',es:'Español',de:'Deutsch',fr:'Français'};
+
+const DICT={
+it:{
+ brand:'GUSTAVOEURO', tagline:'Banconote Euro Grade AAA+ · Trasferimenti PayPal anonimi · Regolamento crypto',
+ est:'EST. 2022 · NODO ATTIVO',
+ nav_home:'Home',nav_cash:'Banconote',nav_paypal:'PayPal',nav_quality:'Verifica Qualità',nav_trust:'Trust Center',
+ nav_faq:'FAQ',nav_track:'Traccia',nav_feedback:'Feedback',nav_checkout:'Checkout',
+ cart:'Carrello',menu:'Menu',close:'Chiudi',copy:'Copia',copied:'Copiato',back:'Indietro',next:'Avanti',
+ confirm:'Conferma',download:'Scarica',processing:'Elaborazione in corso',verify:'Verifica',open:'Apri',
+ gate_title:'ACCESSO AL NODO',gate_sub:'Inserisci la chiave operativa per sbloccare il terminale.',
+ gate_ph:'CHIAVE',gate_btn:'SBLOCCA',gate_err:'Chiave non valida. Riprova.',gate_hint:'Hint: il nome del brand, tutto maiuscolo.',
+ gate_ok:'ACCESSO CONCESSO',
+ boot_ready:'NODO PRONTO',boot_skip:'SALTA BOOT',
+ boot_l1:'init kernel ge-core v4.2.1',boot_l2:'mount /dev/euro ............ ok',boot_l3:'carico modulo banconote .... ok',
+ boot_l4:'carico modulo paypal-p2p .. ok',boot_l5:'handshake exchange terzi ... ok',boot_l6:'rotazione chiavi PGP ....... ok',
+ boot_l7:'verifica integrità ......... 100%',boot_l8:'tunnel onion ............... stabilito',
+ hero_kicker:'NODO COMMERCIALE · LIVE',hero_title:'CAPITALE, SENZA ATTRITO.',
+ hero_sub:'Banconote Euro Grade AAA+ e trasferimenti PayPal P2P che spezzano la catena mittente → destinatario passando da exchange terzi. Verificabile, firmato, tracciabile.',
+ hero_cta1:'ESPLORA IL CATALOGO',hero_cta2:'TRUST CENTER',
+ stat1:'Banconote verificate',stat2:'Uptime nodo',stat3:'Tempi risposta',stat4:'Commissioni crypto',
+ sec_tagli:'TAGLI DISPONIBILI',sec_tagli_sub:'Contanti fisici, spediti con corriere tracciato e imballo sigillato.',
+ den10:'TAGLIO 10 EUR',den10_d:'Disponibilità ridotta. Su richiesta, soggetto a conferma stock.',
+ den20:'TAGLIO 20 EUR',den20_d:'Il formato più richiesto. Tre livelli di volume in catalogo.',
+ den50:'TAGLIO 50 EUR',den50_d:'Massima densità di valore per spedizione. Per chi muove grosso.',
+ onreq_title:'SU RICHIESTA',onreq_sub:'Il taglio 10 EUR è a bassa disponibilità: viene allocato a lotti. Scrivici su Telegram per disponibilità e quotazione.',
+ onreq_btn:'SCRIVI SU TELEGRAM',
+ sec_why:'PERCHÉ GUSTAVOEURO',sec_why_sub:'Quattro pilastri operativi, nessuna scorciatoia.',
+ why1_t:'VERIFICA INDIPENDENTE',why1_d:'Ogni lotto è fotografato e pubblicato nella sezione Verifica Qualità. UV, scanner, fibra di cotone: tutto documentato.',
+ why2_t:'CATENA SPEZZATA',why2_d:'I trasferimenti PayPal passano da exchange terzi: il destinatario non vede il mittente originale.',
+ why3_t:'REGOLAMENTO CRYPTO',why3_d:'SOL, BTC, LTC. Commissioni di rete reali, QR dedicato, memo, tracker conferme.',
+ why4_t:'FIRME PGP + HASH',why4_d:'Ogni ordine produce un manifest con hash riga per riga e anteprima di firma PGP.',
+ sec_flow:'COME FUNZIONA',flow1:'SCEGLI',flow2:'VERIFICA',flow3:'PAGA',flow4:'RICEVI',
+ flow1_d:'Aggiungi al carrello banconote o saldo PayPal.',flow2_d:'Controlla il manifest con hash e checksum.',
+ flow3_d:'Crypto, bonifico SEPA istantaneo o buoni Amazon.',flow4_d:'Spedizione tracciata o accredito del saldo.',
+ price_hint:'PREZZO VISIBILE NEL CARRELLO',add:'AGGIUNGI',pcs:'pezzi',in_cart:'nel carrello',
+ badge_grade:'GRADE AAA+',badge_uv:'UV 100%',badge_scan:'SCANNER PASS',badge_fiber:'FIBRA COTONE',
+ cash_title:'CATALOGO BANCONOTE',cash_sub:'Tagli 20 e 50 EUR. Prezzi mostrati solo nel carrello.',
+ paypal_title:'TRASFERIMENTI PAYPAL',paypal_sub:'Tu paghi, il saldo arriva. Passaggio da exchange terzo: catena mittente spezzata.',
+ paypal_note:'Il rapporto pagato/ricevuto è fisso. Ricevi la richiesta PayPal, paghi, il saldo viene girato.',
+ pp_pay:'PAGHI',pp_recv:'RICEVI',
+ p_b20_25:'ENTRY LEVEL',d_b20_25:'Lotto d ingresso: 25 pezzi da 20 EUR. Ideale per il primo test qualità.',
+ p_b20_75:'SCORTA OPERATIVA',d_b20_75:'75 pezzi da 20 EUR. Il compromesso perfetto tra volume e capitale impegnato.',
+ p_b20_200:'VOLUME INDUSTRIALE',d_b20_200:'200 pezzi da 20 EUR. Massimo rapporto costo/pezzo del taglio.',
+ p_b50_15:'PACK STARTER 50',d_b50_15:'15 pezzi da 50 EUR per entrare nel taglio alto senza immobilizzare troppo.',
+ p_b50_50:'BANK RESERVE',d_b50_50:'50 pezzi da 50 EUR. Densità di valore da vera riserva.',
+ p_b50_150:'POTERE DI SMERCIO ASSOLUTO',d_b50_150:'150 pezzi da 50 EUR. Il lotto più pesante in catalogo.',
+ pp_ase:'ASE',pd_ase:'Punto d ingresso: paghi 120, ricevi 250 di saldo.',
+ pp_adv:'ADVANCED',pd_adv:'Moltiplicatore pieno su una cifra ancora contenuta.',
+ pp_vip:'VIP',pd_vip:'Passo successivo. Saldo quasi triplo rispetto al pagato.',
+ pp_prem:'PREMIUM',pd_prem:'Fascia alta: paghi 450, ricevi 1100.',
+ pp_elite:'ELITE',pd_elite:'Per chi vuole saldo importante senza toccare il migliaio.',
+ pp_master:'MASTER',pd_master:'Il tetto del listino: paghi 1000, ricevi 2800.',
+ quality_title:'VERIFICA QUALITÀ',quality_sub:'Tutte le foto e i video del lotto. Filtra per taglio e apri a schermo intero.',
+ filter20:'20 EUR',filter50:'50 EUR',gal_hint:'Clicca per ingrandire · frecce per navigare',
+ trust_title:'TRUST CENTER',trust_sub:'Identità, chiavi, infrastruttura. Tutto quello che serve per fidarsi.',
+ tr_pgp_t:'CHIAVE PGP',tr_pgp_d:'Fingerprint della chiave pubblica usata per firmare manifest e ricevute.',
+ tr_hash_t:'HASH DI VERIFICA',tr_hash_d:'Ogni ordine genera un manifest con hash per riga e checksum globale.',
+ tr_onion_t:'INDIRIZZO ONION',tr_onion_d:'Specchio su rete Tor, indipendente dal DNS di superficie.',
+ tr_couriers_t:'CORRIERI',tr_couriers_d:'Spedizioni tracciate e imballo sigillato.',
+ tr_hours_t:'FINESTRA OPERATIVA',tr_hours_d:'Risposte su Telegram nella finestra operativa. Il nodo resta sempre su.',
+ tr_verify_t:'VERIFICA LOTTO',tr_verify_d:'Foto, video, badge UV e scanner. Nulla è dichiarato senza prova.',
+ faq_title:'DOMANDE FREQUENTI',faq_sub:'Le risposte secche, senza fuffa.',
+ faq_q1:'Le banconote sono vere?',faq_a1:'Sono banconote Euro in circolazione, selezionate Grade AAA+. Corso legale pieno: le usi come contanti normali.',
+ faq_q2:'Come funziona il trasferimento PayPal?',faq_a2:'Ricevi una richiesta di pagamento su PayPal, la saldi, e il saldo ti arriva girato tramite exchange terzo. Così la catena mittente/destinatario si spezza.',
+ faq_q3:'Quali pagamenti accettate?',faq_a3:'Crypto (SOL, BTC, LTC) a commissioni zero, bonifico SEPA istantaneo (+10% gestione), buoni Amazon (+20% conversione).',
+ faq_q4:'Quanto costa la spedizione?',faq_a4:'Dipende dal corriere e dal peso del lotto. Viene concordata su Telegram dopo l ordine.',
+ faq_q5:'Quanto tempo per la consegna?',faq_a5:'2-5 giorni lavorativi in Italia con corriere espresso. Locker InPost disponibile.',
+ faq_q6:'Posso tracciare l ordine?',faq_a6:'Sì. Il codice ordine (formato GST-xxxx-xxxx) resta salvato nel tuo browser e recuperabile dalla pagina Traccia.',
+ faq_q7:'Cosa succede se il lotto non è conforme?',faq_a7:'Contatti su Telegram con foto: si rimedia con reintegro o rimborso.',
+ faq_q8:'Serve registrarsi?',faq_a8:'No. Nessun account, nessun tracciamento lato server. Tutto vive nel tuo browser.',
+ track_title:'TRACCIA ORDINE',track_sub:'Inserisci il codice ordine per recuperare manifest, totale e stato.',
+ track_ph:'GST-XXXX-XXXX',track_btn:'CERCA',track_nf:'Nessun ordine trovato con questo codice nel browser.',
+ track_found:'ORDINE TROVATO',track_items:'ARTICOLI',track_total:'TOTALE',track_status:'STATO',
+ track_note:'Gli ordini sono salvati in locale (localStorage). Se cambi browser, non li vedi.',
+ fb_title:'FEEDBACK',fb_sub:'Raccontaci com è andata. Il feedback muove il nodo.',
+ fb_name:'NOME / HANDLE',fb_contact:'CONTATTO (Telegram o email)',fb_msg:'MESSAGGIO',fb_order:'CODICE ORDINE (opzionale)',
+ fb_send:'INVIA FEEDBACK',fb_thanks:'Feedback registrato. Grazie, operatore.',
+ fb_tg:'Invia anche su Telegram',
+ privacy_title:'PRIVACY',terms_title:'TERMINI',cookies_title:'COOKIE',
+ privacy_body:'Nessun server applicativo: il sito è statico. I dati del carrello e degli ordini vivono in localStorage del tuo browser. La lingua scelta è salvata in localStorage. La sessione di accesso vive in sessionStorage e muore alla chiusura della scheda. Nessun tracciante di terze parti, nessun analytics invasivo. Le richieste esterne sono solo verso i CDN (React, Babel, Tailwind, font) e verso il generatore QR.',
+ terms_body:'GUSTAVOEURO opera dal 2022. I prezzi sono espressi in EUR e mostrati nel carrello. La disponibilità dei lotti è soggetta a conferma. Il taglio 10 EUR è allocato a lotti e richiede contatto diretto. Le spedizioni sono tracciate; i tempi indicati sono stime del corriere. Il trasferimento PayPal è concluso all accredito del saldo. Il regolamento crypto è concluso alla conferma in rete secondo il numero di conferme indicato. Nessun rimborso una volta spedito il lotto, salvo non conformità documentata.',
+ cookies_body:'Il sito non usa cookie di profilazione. Usa localStorage per carrello, ordini e lingua, e sessionStorage per lo stato di accesso. Sono dati tecnici, non cookie pubblicitari.',
+ co_title:'CHECKOUT',co_empty:'Il carrello è vuoto.',
+ co_s1:'DATI',co_s2:'VERIFICA',co_s3:'PAGAMENTO',co_s4:'CONFERMA',
+ co_dati:'DATI OPERATORE',co_verifica:'MANIFEST DI VERIFICA',co_pagamento:'METODO DI PAGAMENTO',co_conferma:'CONFERMA',
+ f_name:'NOME E COGNOME',f_email:'EMAIL',f_phone:'TELEFONO',f_addr:'INDIRIZZO',f_city:'CITTÀ',f_zip:'CAP',f_country:'PAESE',
+ f_notes:'NOTE PER IL NODO (opzionale)',f_ppmail:'EMAIL PAYPAL',f_ppmail2:'CONFERMA EMAIL PAYPAL',
+ ship_title:'DATI DI SPEDIZIONE',pp_only_note:'Nel carrello ci sono SOLO trasferimenti PayPal: nessuna spedizione necessaria. Inserisci la tua email PayPal due volte.',
+ mixed_note:'Carrello misto: servono sia i dati di spedizione sia l email PayPal.',
+ manifest:'MANIFEST',ledger:'LEDGER HASH',total:'TOTALE',checksum:'CHECKSUM',draft_id:'ID BOZZA',session_id:'ID SESSIONE',
+ pgp_preview:'ANTEPRIMA FIRMA PGP',sign_ok:'FIRMA VALIDA',integrity:'INTEGRITÀ',console:'ORDER CONSOLE',fingerprint:'FINGERPRINT DISPOSITIVO',
+ co_next:'AVANTI',co_back:'INDIETRO',co_pay:'VAI AL PAGAMENTO',co_confirm:'CONFERMA ORDINE',co_receipt:'SCARICA RICEVUTA',
+ pm_crypto:'CRYPTO',pm_crypto_d:'SOL / BTC / LTC — 0% commissioni, regolamento in rete.',
+ pm_sepa:'BONIFICO SEPA ISTANTANEO',pm_sepa_d:'Accredito immediato sul conto del nodo — +10% gestione.',
+ pm_amazon:'BUONI AMAZON',pm_amazon_d:'Buoni regalo Amazon — +20% conversione.',
+ crypto_net:'SCEGLI LA RETE',crypto_only:'INVIA SOLO {S} SU QUESTA RETE',crypto_addr:'INDIRIZZO DI DEPOSITO',
+ crypto_amount:'IMPORTO ESATTO',crypto_memo:'MEMO (OBBLIGATORIO)',crypto_conf:'CONFERME RICHIESTE',crypto_exp:'SCADENZA PREVENTIVO',
+ crypto_scan:'SCANSIONA IL QR',crypto_verified:'VERIFICATO PGP',crypto_note:'Confronta sempre i primi e gli ultimi 6 caratteri dell indirizzo.',
+ crypto_txprev:'ANTEPRIMA TRANSAZIONE',explorer:'APRI SU EXPLORER',avg_conf:'CONFERME MEDIE',time_est:'TEMPO STIMATO',
+ fees_zero:'COMMISSIONI 0%',pro:'PRO',cons:'CONTRO',
+ sepa_badge:'SEPA INSTANT',sepa_warn:'+10% DI GESTIONE SUL TOTALE',sepa_iban:'IBAN DEL NODO',
+ sepa_iban_note:'IBAN comunicato su Telegram al momento della conferma.',sepa_causal:'CAUSALE / RIFERIMENTO',
+ sepa_break:'BREAKDOWN COMMISSIONI',sepa_break_amount:'IMPORTO BASE',sepa_break_fee:'GESTIONE +10%',sepa_break_total:'TOTALE DA BONIFICARE',
+ sepa_t1:'Apri la tua home banking',sepa_t2:'Seleziona bonifico istantaneo (SEPA Instant)',sepa_t3:'Incolla IBAN e causale con il codice ordine',
+ sepa_t4:'Invia la ricevuta su Telegram',sepa_copy_iban:'COPIA IBAN',
+ amz_badge:'AMAZON VOUCHER',amz_warn:'+20% DI CONVERSIONE SUL TOTALE',amz_region:'REGIONE BUONO',
+ amz_code:'CODICE BUONO (15 CIFRE)',amz_break:'BREAKDOWN CONVERSIONE',amz_break_value:'VALORE BUONO',amz_break_fee:'CONVERSIONE +20%',amz_break_total:'TOTALE DA COPRIRE',
+ amz_t1:'Acquista il buono Amazon',amz_t2:'Scegli l importo indicato',amz_t3:'Incolla qui il codice e invia',
+ amz_checksum:'CHECKSUM CODICE',amz_code_ok:'FORMATO VALIDO',amz_code_ko:'FORMATO NON VALIDO',
+ ok_missing:'Compila tutti i campi obbligatori.',ok_invalid:'Email non valida.',ok_pp_mismatch:'Le due email PayPal non coincidono.',
+ receipt:'RICEVUTA',order_code:'CODICE ORDINE',thanks_title:'ORDINE REGISTRATO',thanks_sub:'Il nodo ha acquisito il manifest. Conserva il codice ordine.',
+ thanks_tg:'INVIA IL CODICE SU TELEGRAM',thanks_track:'TRACCIA QUESTO ORDINE',
+ footer_contacts:'CONTATTI',footer_legal:'LEGALE',footer_links:'NAVIGAZIONE',rights:'Tutti i diritti riservati.',
+ lang_label:'LINGUA',live:'LIVE',tor:'TOR 3 HOPS',blocked:'BLOCCATI',cpu:'CPU',mem:'MEM',ping:'PING',
+ step_hint:'Nessun dato lascia il browser finché non invii.',
+ remove:'Rimuovi',qty:'QTÀ',empty_cart:'Carrello vuoto',subtotal:'SUBTOTALE',
+ tocheckout:'VAI AL CHECKOUT',clear:'SVUOTA',items:'articoli',item:'articolo',
+ locked:'SESSIONE ATTIVA',enter:'ENTRA NEL NODO',rescan:'RIESEGUI BOOT',
+ price_in_cart:'Prezzi visibili nel carrello',
+ back_home:'TORNA ALLA HOME',soon:'PROSSIMAMENTE'
+},
+en:{
+ brand:'GUSTAVOEURO', tagline:'Euro Banknotes Grade AAA+ · Anonymous PayPal transfers · Crypto settlement',
+ est:'EST. 2022 · NODE ONLINE',
+ nav_home:'Home',nav_cash:'Banknotes',nav_paypal:'PayPal',nav_quality:'Quality Check',nav_trust:'Trust Center',
+ nav_faq:'FAQ',nav_track:'Track',nav_feedback:'Feedback',nav_checkout:'Checkout',
+ cart:'Cart',menu:'Menu',close:'Close',copy:'Copy',copied:'Copied',back:'Back',next:'Next',
+ confirm:'Confirm',download:'Download',processing:'Processing',verify:'Verify',open:'Open',
+ gate_title:'NODE ACCESS',gate_sub:'Enter the operational key to unlock the terminal.',
+ gate_ph:'KEY',gate_btn:'UNLOCK',gate_err:'Invalid key. Try again.',gate_hint:'Hint: the brand name, uppercase.',
+ gate_ok:'ACCESS GRANTED',
+ boot_ready:'NODE READY',boot_skip:'SKIP BOOT',
+ boot_l1:'init kernel ge-core v4.2.1',boot_l2:'mount /dev/euro ............ ok',boot_l3:'load banknote module ...... ok',
+ boot_l4:'load paypal-p2p module .... ok',boot_l5:'third-party exchange ..... ok',boot_l6:'rotate PGP keys .......... ok',
+ boot_l7:'integrity check ........... 100%',boot_l8:'onion tunnel .............. up',
+ hero_kicker:'COMMERCIAL NODE · LIVE',hero_title:'CAPITAL, WITHOUT FRICTION.',
+ hero_sub:'Euro banknotes Grade AAA+ and P2P PayPal transfers that break the sender → receiver chain by routing through third-party exchanges. Verifiable, signed, traceable.',
+ hero_cta1:'BROWSE CATALOG',hero_cta2:'TRUST CENTER',
+ stat1:'Verified banknotes',stat2:'Node uptime',stat3:'Response time',stat4:'Crypto fees',
+ sec_tagli:'AVAILABLE DENOMINATIONS',sec_tagli_sub:'Physical cash, shipped tracked with sealed packaging.',
+ den10:'10 EUR DENOMINATION',den10_d:'Low availability. On request, subject to stock confirmation.',
+ den20:'20 EUR DENOMINATION',den20_d:'Most requested format. Three volume tiers in catalog.',
+ den50:'50 EUR DENOMINATION',den50_d:'Maximum value density per shipment. For heavy movers.',
+ onreq_title:'ON REQUEST',onreq_sub:'The 10 EUR denomination is low stock: allocated in batches. Message us on Telegram for availability and quote.',
+ onreq_btn:'MESSAGE ON TELEGRAM',
+ sec_why:'WHY GUSTAVOEURO',sec_why_sub:'Four operational pillars, no shortcuts.',
+ why1_t:'INDEPENDENT VERIFICATION',why1_d:'Every batch is photographed and published in Quality Check. UV, scanner, cotton fibre: all documented.',
+ why2_t:'BROKEN CHAIN',why2_d:'PayPal transfers route through third-party exchanges: the receiver never sees the original sender.',
+ why3_t:'CRYPTO SETTLEMENT',why3_d:'SOL, BTC, LTC. Real network fees, dedicated QR, memo, confirmation tracker.',
+ why4_t:'PGP + HASHES',why4_d:'Every order produces a manifest with per-line hashes and a PGP signature preview.',
+ sec_flow:'HOW IT WORKS',flow1:'CHOOSE',flow2:'VERIFY',flow3:'PAY',flow4:'RECEIVE',
+ flow1_d:'Add banknotes or PayPal balance to the cart.',flow2_d:'Check the manifest with hashes and checksum.',
+ flow3_d:'Crypto, SEPA instant transfer or Amazon vouchers.',flow4_d:'Tracked shipment or balance credit.',
+ price_hint:'PRICE SHOWN IN CART',add:'ADD',pcs:'pcs',in_cart:'in cart',
+ badge_grade:'GRADE AAA+',badge_uv:'UV 100%',badge_scan:'SCANNER PASS',badge_fiber:'COTTON FIBRE',
+ cash_title:'BANKNOTE CATALOG',cash_sub:'20 and 50 EUR denominations. Prices shown only in the cart.',
+ paypal_title:'PAYPAL TRANSFERS',paypal_sub:'You pay, the balance arrives. Routed through a third-party exchange: sender chain broken.',
+ paypal_note:'The paid/received ratio is fixed. You get a PayPal request, you pay, the balance is forwarded.',
+ pp_pay:'YOU PAY',pp_recv:'YOU RECEIVE',
+ p_b20_25:'ENTRY LEVEL',d_b20_25:'Entry batch: 25 notes of 20 EUR. Perfect for a first quality test.',
+ p_b20_75:'OPERATIONAL STOCK',d_b20_75:'75 notes of 20 EUR. The sweet spot between volume and committed capital.',
+ p_b20_200:'INDUSTRIAL VOLUME',d_b20_200:'200 notes of 20 EUR. Best cost-per-note ratio of this denomination.',
+ p_b50_15:'STARTER PACK 50',d_b50_15:'15 notes of 50 EUR to enter the high denomination without over-committing.',
+ p_b50_50:'BANK RESERVE',d_b50_50:'50 notes of 50 EUR. Real reserve-grade value density.',
+ p_b50_150:'ABSOLUTE PURCHASING POWER',d_b50_150:'150 notes of 50 EUR. The heaviest batch in catalog.',
+ pp_ase:'ASE',pd_ase:'Entry point: pay 120, receive 250 balance.',
+ pp_adv:'ADVANCED',pd_adv:'Full multiplier on a still contained amount.',
+ pp_vip:'VIP',pd_vip:'Next step. Balance nearly triple the paid amount.',
+ pp_prem:'PREMIUM',pd_prem:'High tier: pay 450, receive 1100.',
+ pp_elite:'ELITE',pd_elite:'For a serious balance without hitting four digits.',
+ pp_master:'MASTER',pd_master:'Top of the list: pay 1000, receive 2800.',
+ quality_title:'QUALITY CHECK',quality_sub:'Every photo and video of the batch. Filter by denomination and open fullscreen.',
+ filter20:'20 EUR',filter50:'50 EUR',gal_hint:'Click to zoom · arrow keys to navigate',
+ trust_title:'TRUST CENTER',trust_sub:'Identity, keys, infrastructure. Everything you need to trust.',
+ tr_pgp_t:'PGP KEY',tr_pgp_d:'Fingerprint of the public key used to sign manifests and receipts.',
+ tr_hash_t:'VERIFICATION HASH',tr_hash_d:'Every order generates a manifest with per-line hashes and a global checksum.',
+ tr_onion_t:'ONION ADDRESS',tr_onion_d:'Tor network mirror, independent from surface DNS.',
+ tr_couriers_t:'COURIERS',tr_couriers_d:'Tracked shipments and sealed packaging.',
+ tr_hours_t:'OPERATING WINDOW',tr_hours_d:'Telegram replies within the operating window. The node stays online.',
+ tr_verify_t:'BATCH VERIFICATION',tr_verify_d:'Photos, videos, UV badges and scanner. Nothing is claimed without proof.',
+ faq_title:'FREQUENTLY ASKED',faq_sub:'Straight answers, no fluff.',
+ faq_q1:'Are the banknotes real?',faq_a1:'They are circulating Euro banknotes, selected Grade AAA+. Full legal tender: spend them as normal cash.',
+ faq_q2:'How does the PayPal transfer work?',faq_a2:'You get a PayPal payment request, settle it, and the balance is forwarded to you through a third-party exchange. That breaks the sender/receiver chain.',
+ faq_q3:'Which payments do you accept?',faq_a3:'Crypto (SOL, BTC, LTC) at zero fees, SEPA instant transfer (+10% handling), Amazon vouchers (+20% conversion).',
+ faq_q4:'How much is shipping?',faq_a4:'Depends on courier and batch weight. Agreed on Telegram after the order.',
+ faq_q5:'How long is delivery?',faq_a5:'2-5 business days in Italy with express courier. InPost locker available.',
+ faq_q6:'Can I track my order?',faq_a6:'Yes. The order code (GST-xxxx-xxxx) stays in your browser and is recoverable from the Track page.',
+ faq_q7:'What if the batch is not compliant?',faq_a7:'Contact us on Telegram with photos: we fix it with replacement or refund.',
+ faq_q8:'Do I need to register?',faq_a8:'No. No account, no server-side tracking. Everything lives in your browser.',
+ track_title:'TRACK ORDER',track_sub:'Enter the order code to recover manifest, total and status.',
+ track_ph:'GST-XXXX-XXXX',track_btn:'SEARCH',track_nf:'No order found with this code in this browser.',
+ track_found:'ORDER FOUND',track_items:'ITEMS',track_total:'TOTAL',track_status:'STATUS',
+ track_note:'Orders are stored locally (localStorage). Switching browser means losing them.',
+ fb_title:'FEEDBACK',fb_sub:'Tell us how it went. Feedback moves the node.',
+ fb_name:'NAME / HANDLE',fb_contact:'CONTACT (Telegram or email)',fb_msg:'MESSAGE',fb_order:'ORDER CODE (optional)',
+ fb_send:'SEND FEEDBACK',fb_thanks:'Feedback recorded. Thank you, operator.',
+ fb_tg:'Also send on Telegram',
+ privacy_title:'PRIVACY',terms_title:'TERMS',cookies_title:'COOKIES',
+ privacy_body:'No application server: the site is static. Cart and order data live in your browser localStorage. Language choice is stored in localStorage. Access session lives in sessionStorage and dies with the tab. No third-party trackers, no invasive analytics. External requests only to CDNs (React, Babel, Tailwind, fonts) and the QR generator.',
+ terms_body:'GUSTAVOEURO operates since 2022. Prices are in EUR and shown in the cart. Batch availability is subject to confirmation. The 10 EUR denomination is batch-allocated and requires direct contact. Shipments are tracked; stated times are courier estimates. PayPal transfer completes when the balance is credited. Crypto settlement completes at network confirmation according to the stated confirmation count. No refunds once shipped, except documented non-compliance.',
+ cookies_body:'No profiling cookies. localStorage is used for cart, orders and language, sessionStorage for access state. Technical data, not advertising cookies.',
+ co_title:'CHECKOUT',co_empty:'Cart is empty.',
+ co_s1:'DETAILS',co_s2:'VERIFY',co_s3:'PAYMENT',co_s4:'CONFIRM',
+ co_dati:'OPERATOR DETAILS',co_verifica:'VERIFICATION MANIFEST',co_pagamento:'PAYMENT METHOD',co_conferma:'CONFIRMATION',
+ f_name:'FULL NAME',f_email:'EMAIL',f_phone:'PHONE',f_addr:'ADDRESS',f_city:'CITY',f_zip:'ZIP',f_country:'COUNTRY',
+ f_notes:'NOTES FOR THE NODE (optional)',f_ppmail:'PAYPAL EMAIL',f_ppmail2:'CONFIRM PAYPAL EMAIL',
+ ship_title:'SHIPPING DETAILS',pp_only_note:'Cart contains ONLY PayPal transfers: no shipping needed. Enter your PayPal email twice.',
+ mixed_note:'Mixed cart: both shipping details and PayPal email are required.',
+ manifest:'MANIFEST',ledger:'LEDGER HASH',total:'TOTAL',checksum:'CHECKSUM',draft_id:'DRAFT ID',session_id:'SESSION ID',
+ pgp_preview:'PGP SIGNATURE PREVIEW',sign_ok:'SIGNATURE VALID',integrity:'INTEGRITY',console:'ORDER CONSOLE',fingerprint:'DEVICE FINGERPRINT',
+ co_next:'NEXT',co_back:'BACK',co_pay:'GO TO PAYMENT',co_confirm:'CONFIRM ORDER',co_receipt:'DOWNLOAD RECEIPT',
+ pm_crypto:'CRYPTO',pm_crypto_d:'SOL / BTC / LTC — 0% fees, on-chain settlement.',
+ pm_sepa:'SEPA INSTANT TRANSFER',pm_sepa_d:'Immediate credit to node account — +10% handling.',
+ pm_amazon:'AMAZON VOUCHERS',pm_amazon_d:'Amazon gift vouchers — +20% conversion.',
+ crypto_net:'CHOOSE NETWORK',crypto_only:'SEND ONLY {S} ON THIS NETWORK',crypto_addr:'DEPOSIT ADDRESS',
+ crypto_amount:'EXACT AMOUNT',crypto_memo:'MEMO (REQUIRED)',crypto_conf:'REQUIRED CONFIRMATIONS',crypto_exp:'QUOTE EXPIRY',
+ crypto_scan:'SCAN THE QR',crypto_verified:'PGP VERIFIED',crypto_note:'Always compare the first and last 6 characters of the address.',
+ crypto_txprev:'TRANSACTION PREVIEW',explorer:'OPEN IN EXPLORER',avg_conf:'AVG CONFIRMATIONS',time_est:'ESTIMATED TIME',
+ fees_zero:'0% FEES',pro:'PRO',cons:'CONS',
+ sepa_badge:'SEPA INSTANT',sepa_warn:'+10% HANDLING ON TOTAL',sepa_iban:'NODE IBAN',
+ sepa_iban_note:'IBAN shared on Telegram at confirmation.',sepa_causal:'CAUSAL / REFERENCE',
+ sepa_break:'FEE BREAKDOWN',sepa_break_amount:'BASE AMOUNT',sepa_break_fee:'HANDLING +10%',sepa_break_total:'TOTAL TO TRANSFER',
+ sepa_t1:'Open your home banking',sepa_t2:'Select instant transfer (SEPA Instant)',sepa_t3:'Paste IBAN and causal with the order code',
+ sepa_t4:'Send the receipt on Telegram',sepa_copy_iban:'COPY IBAN',
+ amz_badge:'AMAZON VOUCHER',amz_warn:'+20% CONVERSION ON TOTAL',amz_region:'VOUCHER REGION',
+ amz_code:'VOUCHER CODE (15 DIGITS)',amz_break:'CONVERSION BREAKDOWN',amz_break_value:'VOUCHER VALUE',amz_break_fee:'CONVERSION +20%',amz_break_total:'TOTAL TO COVER',
+ amz_t1:'Buy the Amazon voucher',amz_t2:'Choose the stated amount',amz_t3:'Paste the code here and send',
+ amz_checksum:'CODE CHECKSUM',amz_code_ok:'VALID FORMAT',amz_code_ko:'INVALID FORMAT',
+ ok_missing:'Fill all required fields.',ok_invalid:'Invalid email.',ok_pp_mismatch:'The two PayPal emails do not match.',
+ receipt:'RECEIPT',order_code:'ORDER CODE',thanks_title:'ORDER REGISTERED',thanks_sub:'The node has ingested the manifest. Keep your order code.',
+ thanks_tg:'SEND CODE ON TELEGRAM',thanks_track:'TRACK THIS ORDER',
+ footer_contacts:'CONTACTS',footer_legal:'LEGAL',footer_links:'NAVIGATION',rights:'All rights reserved.',
+ lang_label:'LANGUAGE',live:'LIVE',tor:'TOR 3 HOPS',blocked:'BLOCKED',cpu:'CPU',mem:'MEM',ping:'PING',
+ step_hint:'No data leaves your browser until you send.',
+ remove:'Remove',qty:'QTY',empty_cart:'Empty cart',subtotal:'SUBTOTAL',
+ tocheckout:'GO TO CHECKOUT',clear:'CLEAR',items:'items',item:'item',
+ locked:'SESSION ACTIVE',enter:'ENTER NODE',rescan:'REPLAY BOOT',
+ price_in_cart:'Prices shown in cart',
+ back_home:'BACK HOME',soon:'COMING SOON'
+},
+es:{
+ brand:'GUSTAVOEURO', tagline:'Billetes de Euro Grade AAA+ · Transferencias PayPal anónimas · Liquidación crypto',
+ est:'EST. 2022 · NODO ACTIVO',
+ nav_home:'Inicio',nav_cash:'Billetes',nav_paypal:'PayPal',nav_quality:'Verificar Calidad',nav_trust:'Trust Center',
+ nav_faq:'FAQ',nav_track:'Rastrear',nav_feedback:'Feedback',nav_checkout:'Checkout',
+ cart:'Carrito',menu:'Menú',close:'Cerrar',copy:'Copiar',copied:'Copiado',back:'Atrás',next:'Siguiente',
+ confirm:'Confirmar',download:'Descargar',processing:'Procesando',verify:'Verificar',open:'Abrir',
+ gate_title:'ACCESO AL NODO',gate_sub:'Introduce la clave operativa para desbloquear el terminal.',
+ gate_ph:'CLAVE',gate_btn:'DESBLOQUEAR',gate_err:'Clave no válida. Reintenta.',gate_hint:'Pista: el nombre de la marca, en mayúsculas.',
+ gate_ok:'ACCESO CONCEDIDO',
+ boot_ready:'NODO LISTO',boot_skip:'SALTAR BOOT',
+ boot_l1:'init kernel ge-core v4.2.1',boot_l2:'mount /dev/euro ............ ok',boot_l3:'cargando módulo billetes . ok',
+ boot_l4:'cargando módulo paypal ... ok',boot_l5:'exchange tercero ......... ok',boot_l6:'rotando claves PGP ....... ok',
+ boot_l7:'verificación integridad ... 100%',boot_l8:'túnel onion ............... activo',
+ hero_kicker:'NODO COMERCIAL · LIVE',hero_title:'CAPITAL, SIN ROZAMIENTO.',
+ hero_sub:'Billetes de Euro Grade AAA+ y transferencias PayPal P2P que rompen la cadena emisor → receptor pasando por exchanges terceros. Verificable, firmado, rastreable.',
+ hero_cta1:'EXPLORAR CATÁLOGO',hero_cta2:'TRUST CENTER',
+ stat1:'Billetes verificados',stat2:'Uptime del nodo',stat3:'Tiempo de respuesta',stat4:'Comisiones crypto',
+ sec_tagli:'DENOMINACIONES DISPONIBLES',sec_tagli_sub:'Efectivo físico, enviado con seguimiento y embalaje sellado.',
+ den10:'DENOMINACIÓN 10 EUR',den10_d:'Disponibilidad reducida. Bajo pedido, sujeto a confirmación de stock.',
+ den20:'DENOMINACIÓN 20 EUR',den20_d:'El formato más pedido. Tres niveles de volumen en catálogo.',
+ den50:'DENOMINACIÓN 50 EUR',den50_d:'Máxima densidad de valor por envío. Para quien mueve fuerte.',
+ onreq_title:'BAJO PEDIDO',onreq_sub:'La denominación de 10 EUR tiene poco stock: se asigna por lotes. Escríbenos por Telegram para disponibilidad y precio.',
+ onreq_btn:'ESCRIBIR POR TELEGRAM',
+ sec_why:'POR QUÉ GUSTAVOEURO',sec_why_sub:'Cuatro pilares operativos, sin atajos.',
+ why1_t:'VERIFICACIÓN INDEPENDIENTE',why1_d:'Cada lote se fotografía y se publica en Verificar Calidad. UV, escáner, fibra de algodón: todo documentado.',
+ why2_t:'CADENA ROTA',why2_d:'Las transferencias PayPal pasan por exchanges terceros: el receptor nunca ve al emisor original.',
+ why3_t:'LIQUIDACIÓN CRYPTO',why3_d:'SOL, BTC, LTC. Comisiones de red reales, QR dedicado, memo, tracker de confirmaciones.',
+ why4_t:'PGP + HASHES',why4_d:'Cada pedido genera un manifest con hash línea a línea y vista previa de firma PGP.',
+ sec_flow:'CÓMO FUNCIONA',flow1:'ELIGE',flow2:'VERIFICA',flow3:'PAGA',flow4:'RECIBE',
+ flow1_d:'Añade billetes o saldo PayPal al carrito.',flow2_d:'Revisa el manifest con hashes y checksum.',
+ flow3_d:'Crypto, transferencia SEPA instantánea o bonos Amazon.',flow4_d:'Envío con seguimiento o abono del saldo.',
+ price_hint:'PRECIO VISIBLE EN EL CARRITO',add:'AÑADIR',pcs:'piezas',in_cart:'en el carrito',
+ badge_grade:'GRADE AAA+',badge_uv:'UV 100%',badge_scan:'SCANNER PASS',badge_fiber:'FIBRA ALGODÓN',
+ cash_title:'CATÁLOGO DE BILLETES',cash_sub:'Denominaciones de 20 y 50 EUR. Precios solo en el carrito.',
+ paypal_title:'TRANSFERENCIAS PAYPAL',paypal_sub:'Tú pagas, el saldo llega. Vía exchange tercero: cadena emisor rota.',
+ paypal_note:'La relación pagado/recibido es fija. Recibes la solicitud PayPal, pagas y el saldo se transfiere.',
+ pp_pay:'PAGAS',pp_recv:'RECIBES',
+ p_b20_25:'ENTRY LEVEL',d_b20_25:'Lote de entrada: 25 billetes de 20 EUR. Ideal para el primer test de calidad.',
+ p_b20_75:'STOCK OPERATIVO',d_b20_75:'75 billetes de 20 EUR. El equilibrio perfecto entre volumen y capital comprometido.',
+ p_b20_200:'VOLUMEN INDUSTRIAL',d_b20_200:'200 billetes de 20 EUR. Mejor relación coste/pieza de la denominación.',
+ p_b50_15:'PACK STARTER 50',d_b50_15:'15 billetes de 50 EUR para entrar en la denominación alta sin inmovilizar demasiado.',
+ p_b50_50:'BANK RESERVE',d_b50_50:'50 billetes de 50 EUR. Densidad de valor de reserva real.',
+ p_b50_150:'PODER DE COMPRA ABSOLUTO',d_b50_150:'150 billetes de 50 EUR. El lote más pesado del catálogo.',
+ pp_ase:'ASE',pd_ase:'Punto de entrada: pagas 120, recibes 250 de saldo.',
+ pp_adv:'ADVANCED',pd_adv:'Multiplicador completo con una cifra contenida.',
+ pp_vip:'VIP',pd_vip:'Siguiente paso. Saldo casi triple respecto al pagado.',
+ pp_prem:'PREMIUM',pd_prem:'Franja alta: pagas 450, recibes 1100.',
+ pp_elite:'ELITE',pd_elite:'Para saldo importante sin llegar al millar.',
+ pp_master:'MASTER',pd_master:'Tope de la lista: pagas 1000, recibes 2800.',
+ quality_title:'VERIFICAR CALIDAD',quality_sub:'Todas las fotos y vídeos del lote. Filtra por denominación y abre a pantalla completa.',
+ filter20:'20 EUR',filter50:'50 EUR',gal_hint:'Clic para ampliar · flechas para navegar',
+ trust_title:'TRUST CENTER',trust_sub:'Identidad, claves, infraestructura. Todo lo necesario para confiar.',
+ tr_pgp_t:'CLAVE PGP',tr_pgp_d:'Fingerprint de la clave pública usada para firmar manifests y recibos.',
+ tr_hash_t:'HASH DE VERIFICACIÓN',tr_hash_d:'Cada pedido genera un manifest con hash por línea y checksum global.',
+ tr_onion_t:'DIRECCIÓN ONION',tr_onion_d:'Espejo en red Tor, independiente del DNS de superficie.',
+ tr_couriers_t:'MENSAJERÍAS',tr_couriers_d:'Envíos con seguimiento y embalaje sellado.',
+ tr_hours_t:'VENTANA OPERATIVA',tr_hours_d:'Respuestas en Telegram dentro de la ventana operativa. El nodo sigue activo.',
+ tr_verify_t:'VERIFICAR LOTE',tr_verify_d:'Fotos, vídeos, badges UV y escáner. Nada se afirma sin prueba.',
+ faq_title:'PREGUNTAS FRECUENTES',faq_sub:'Respuestas directas, sin relleno.',
+ faq_q1:'¿Los billetes son reales?',faq_a1:'Son billetes de Euro en circulación, seleccionados Grade AAA+. Curso legal pleno: los usas como efectivo normal.',
+ faq_q2:'¿Cómo funciona la transferencia PayPal?',faq_a2:'Recibes una solicitud de pago PayPal, la pagas y el saldo te llega vía exchange tercero. Así se rompe la cadena emisor/receptor.',
+ faq_q3:'¿Qué pagos aceptáis?',faq_a3:'Crypto (SOL, BTC, LTC) sin comisiones, transferencia SEPA instantánea (+10% gestión), bonos Amazon (+20% conversión).',
+ faq_q4:'¿Cuánto cuesta el envío?',faq_a4:'Depende de la mensajería y del peso. Se acuerda por Telegram tras el pedido.',
+ faq_q5:'¿Cuánto tarda la entrega?',faq_a5:'2-5 días laborables en Italia con mensajería exprés. Locker InPost disponible.',
+ faq_q6:'¿Puedo rastrear el pedido?',faq_a6:'Sí. El código (GST-xxxx-xxxx) queda en tu navegador y se recupera desde Rastrear.',
+ faq_q7:'¿Y si el lote no es conforme?',faq_a7:'Contáctanos por Telegram con fotos: se resuelve con reposición o reembolso.',
+ faq_q8:'¿Hay que registrarse?',faq_a8:'No. Sin cuenta, sin tracking en servidor. Todo vive en tu navegador.',
+ track_title:'RASTREAR PEDIDO',track_sub:'Introduce el código de pedido para recuperar manifest, total y estado.',
+ track_ph:'GST-XXXX-XXXX',track_btn:'BUSCAR',track_nf:'Ningún pedido encontrado con este código en el navegador.',
+ track_found:'PEDIDO ENCONTRADO',track_items:'ARTÍCULOS',track_total:'TOTAL',track_status:'ESTADO',
+ track_note:'Los pedidos se guardan en local (localStorage). Si cambias de navegador, no los ves.',
+ fb_title:'FEEDBACK',fb_sub:'Cuéntanos cómo fue. El feedback mueve el nodo.',
+ fb_name:'NOMBRE / HANDLE',fb_contact:'CONTACTO (Telegram o email)',fb_msg:'MENSAJE',fb_order:'CÓDIGO DE PEDIDO (opcional)',
+ fb_send:'ENVIAR FEEDBACK',fb_thanks:'Feedback registrado. Gracias, operador.',
+ fb_tg:'Enviar también por Telegram',
+ privacy_title:'PRIVACIDAD',terms_title:'TÉRMINOS',cookies_title:'COOKIES',
+ privacy_body:'Sin servidor de aplicación: el sitio es estático. Los datos del carrito y de pedidos viven en el localStorage de tu navegador. El idioma se guarda en localStorage. La sesión de acceso vive en sessionStorage y muere al cerrar la pestaña. Sin rastreadores de terceros ni analítica invasiva. Las peticiones externas son solo a los CDN (React, Babel, Tailwind, fuentes) y al generador de QR.',
+ terms_body:'GUSTAVOEURO opera desde 2022. Los precios están en EUR y se muestran en el carrito. La disponibilidad de lotes está sujeta a confirmación. La denominación de 10 EUR se asigna por lotes y requiere contacto directo. Los envíos son con seguimiento; los tiempos son estimaciones de la mensajería. La transferencia PayPal se cierra con el abono del saldo. La liquidación crypto se cierra con la confirmación en red según el número indicado. Sin reembolsos tras el envío, salvo no conformidad documentada.',
+ cookies_body:'El sitio no usa cookies de perfilado. Usa localStorage para carrito, pedidos e idioma, y sessionStorage para el estado de acceso. Son datos técnicos, no cookies publicitarias.',
+ co_title:'CHECKOUT',co_empty:'El carrito está vacío.',
+ co_s1:'DATOS',co_s2:'VERIFICAR',co_s3:'PAGO',co_s4:'CONFIRMAR',
+ co_dati:'DATOS DEL OPERADOR',co_verifica:'MANIFEST DE VERIFICACIÓN',co_pagamento:'MÉTODO DE PAGO',co_conferma:'CONFIRMACIÓN',
+ f_name:'NOMBRE Y APELLIDOS',f_email:'EMAIL',f_phone:'TELÉFONO',f_addr:'DIRECCIÓN',f_city:'CIUDAD',f_zip:'C.P.',f_country:'PAÍS',
+ f_notes:'NOTAS PARA EL NODO (opcional)',f_ppmail:'EMAIL PAYPAL',f_ppmail2:'CONFIRMAR EMAIL PAYPAL',
+ ship_title:'DATOS DE ENVÍO',pp_only_note:'El carrito contiene SOLO transferencias PayPal: sin envío. Introduce tu email PayPal dos veces.',
+ mixed_note:'Carrito mixto: hacen falta datos de envío y email PayPal.',
+ manifest:'MANIFEST',ledger:'LEDGER HASH',total:'TOTAL',checksum:'CHECKSUM',draft_id:'ID BORRADOR',session_id:'ID SESIÓN',
+ pgp_preview:'VISTA PREVIA FIRMA PGP',sign_ok:'FIRMA VÁLIDA',integrity:'INTEGRIDAD',console:'ORDER CONSOLE',fingerprint:'FINGERPRINT DISPOSITIVO',
+ co_next:'SIGUIENTE',co_back:'ATRÁS',co_pay:'IR AL PAGO',co_confirm:'CONFIRMAR PEDIDO',co_receipt:'DESCARGAR RECIBO',
+ pm_crypto:'CRYPTO',pm_crypto_d:'SOL / BTC / LTC — 0% comisiones, liquidación en red.',
+ pm_sepa:'TRANSFERENCIA SEPA INSTANT',pm_sepa_d:'Abono inmediato en la cuenta del nodo — +10% gestión.',
+ pm_amazon:'BONOS AMAZON',pm_amazon_d:'Tarjetas regalo Amazon — +20% conversión.',
+ crypto_net:'ELIGE LA RED',crypto_only:'ENVÍA SOLO {S} EN ESTA RED',crypto_addr:'DIRECCIÓN DE DEPÓSITO',
+ crypto_amount:'IMPORTE EXACTO',crypto_memo:'MEMO (OBLIGATORIO)',crypto_conf:'CONFIRMACIONES REQUERIDAS',crypto_exp:'CADUCIDAD DEL PRESUPUESTO',
+ crypto_scan:'ESCANEA EL QR',crypto_verified:'VERIFICADO PGP',crypto_note:'Compara siempre los primeros y últimos 6 caracteres de la dirección.',
+ crypto_txprev:'VISTA PREVIA TRANSACCIÓN',explorer:'ABRIR EN EXPLORER',avg_conf:'CONFIRMACIONES MEDIAS',time_est:'TIEMPO ESTIMADO',
+ fees_zero:'COMISIONES 0%',pro:'PRO',cons:'CONTRA',
+ sepa_badge:'SEPA INSTANT',sepa_warn:'+10% DE GESTIÓN SOBRE EL TOTAL',sepa_iban:'IBAN DEL NODO',
+ sepa_iban_note:'IBAN comunicado por Telegram al confirmar.',sepa_causal:'CAUSAL / REFERENCIA',
+ sepa_break:'DESGLOSE DE COMISIONES',sepa_break_amount:'IMPORTE BASE',sepa_break_fee:'GESTIÓN +10%',sepa_break_total:'TOTAL A TRANSFERIR',
+ sepa_t1:'Abre tu banca online',sepa_t2:'Selecciona transferencia instantánea (SEPA Instant)',sepa_t3:'Pega IBAN y causal con el código de pedido',
+ sepa_t4:'Envía el recibo por Telegram',sepa_copy_iban:'COPIAR IBAN',
+ amz_badge:'AMAZON VOUCHER',amz_warn:'+20% DE CONVERSIÓN SOBRE EL TOTAL',amz_region:'REGIÓN DEL BONO',
+ amz_code:'CÓDIGO DEL BONO (15 DÍGITOS)',amz_break:'DESGLOSE DE CONVERSIÓN',amz_break_value:'VALOR DEL BONO',amz_break_fee:'CONVERSIÓN +20%',amz_break_total:'TOTAL A CUBRIR',
+ amz_t1:'Compra el bono Amazon',amz_t2:'Elige el importe indicado',amz_t3:'Pega aquí el código y envía',
+ amz_checksum:'CHECKSUM DEL CÓDIGO',amz_code_ok:'FORMATO VÁLIDO',amz_code_ko:'FORMATO NO VÁLIDO',
+ ok_missing:'Rellena todos los campos obligatorios.',ok_invalid:'Email no válido.',ok_pp_mismatch:'Los dos emails PayPal no coinciden.',
+ receipt:'RECIBO',order_code:'CÓDIGO DE PEDIDO',thanks_title:'PEDIDO REGISTRADO',thanks_sub:'El nodo ha registrado el manifest. Conserva el código.',
+ thanks_tg:'ENVIAR CÓDIGO POR TELEGRAM',thanks_track:'RASTREAR ESTE PEDIDO',
+ footer_contacts:'CONTACTOS',footer_legal:'LEGAL',footer_links:'NAVEGACIÓN',rights:'Todos los derechos reservados.',
+ lang_label:'IDIOMA',live:'LIVE',tor:'TOR 3 HOPS',blocked:'BLOQUEADOS',cpu:'CPU',mem:'MEM',ping:'PING',
+ step_hint:'Ningún dato sale del navegador hasta que envías.',
+ remove:'Quitar',qty:'CANT',empty_cart:'Carrito vacío',subtotal:'SUBTOTAL',
+ tocheckout:'IR AL CHECKOUT',clear:'VACIAR',items:'artículos',item:'artículo',
+ locked:'SESIÓN ACTIVA',enter:'ENTRAR AL NODO',rescan:'REPETIR BOOT',
+ price_in_cart:'Precios visibles en el carrito',
+ back_home:'VOLVER AL INICIO',soon:'PRÓXIMAMENTE'
+},
+de:{
+ brand:'GUSTAVOEURO', tagline:'Euro-Banknoten Grade AAA+ · Anonyme PayPal-Transfers · Krypto-Abwicklung',
+ est:'EST. 2022 · KNOTEN ONLINE',
+ nav_home:'Start',nav_cash:'Banknoten',nav_paypal:'PayPal',nav_quality:'Qualitätscheck',nav_trust:'Trust Center',
+ nav_faq:'FAQ',nav_track:'Verfolgen',nav_feedback:'Feedback',nav_checkout:'Checkout',
+ cart:'Warenkorb',menu:'Menü',close:'Schließen',copy:'Kopieren',copied:'Kopiert',back:'Zurück',next:'Weiter',
+ confirm:'Bestätigen',download:'Download',processing:'Verarbeitung',verify:'Prüfen',open:'Öffnen',
+ gate_title:'KNOTEN-ZUGANG',gate_sub:'Betriebsschlüssel eingeben, um das Terminal zu entsperren.',
+ gate_ph:'SCHLÜSSEL',gate_btn:'ENTSPERREN',gate_err:'Ungültiger Schlüssel. Nochmal.',gate_hint:'Hinweis: der Markenname, in Großbuchstaben.',
+ gate_ok:'ZUGANG GEWÄHRT',
+ boot_ready:'KNOTEN BEREIT',boot_skip:'BOOT ÜBERSPRINGEN',
+ boot_l1:'init kernel ge-core v4.2.1',boot_l2:'mount /dev/euro ............ ok',boot_l3:'banknoten-modul ........... ok',
+ boot_l4:'paypal-p2p-modul ......... ok',boot_l5:'dritt-exchange ........... ok',boot_l6:'PGP-schlüssel rotieren .... ok',
+ boot_l7:'integritätsprüfung ........ 100%',boot_l8:'onion-tunnel .............. aktiv',
+ hero_kicker:'HANDELSKNOTEN · LIVE',hero_title:'KAPITAL, OHNE REIBUNG.',
+ hero_sub:'Euro-Banknoten Grade AAA+ und P2P-PayPal-Transfers, die die Sender-→-Empfänger-Kette über Dritt-Exchanges brechen. Verifizierbar, signiert, nachvollziehbar.',
+ hero_cta1:'KATALOG ANSEHEN',hero_cta2:'TRUST CENTER',
+ stat1:'Verifizierte Banknoten',stat2:'Knoten-Uptime',stat3:'Antwortzeit',stat4:'Krypto-Gebühren',
+ sec_tagli:'VERFÜGBARE STÜCKELUNGEN',sec_tagli_sub:'Physisches Bargeld, verfolgt versandt und versiegelt verpackt.',
+ den10:'STÜCKELUNG 10 EUR',den10_d:'Geringe Verfügbarkeit. Auf Anfrage, vorbehaltlich Bestandsbestätigung.',
+ den20:'STÜCKELUNG 20 EUR',den20_d:'Meistgefragtes Format. Drei Volumenstufen im Katalog.',
+ den50:'STÜCKELUNG 50 EUR',den50_d:'Maximale Wertsdichte pro Sendung. Für schwere Volumina.',
+ onreq_title:'AUF ANFRAGE',onreq_sub:'Die 10-EUR-Stückelung ist knapp: Vergabe in Losen. Schreib uns auf Telegram für Verfügbarkeit und Kurs.',
+ onreq_btn:'AUF TELEGRAM SCHREIBEN',
+ sec_why:'WARUM GUSTAVOEURO',sec_why_sub:'Vier operative Säulen, keine Abkürzungen.',
+ why1_t:'UNABHÄNGIGE PRÜFUNG',why1_d:'Jedes Los wird fotografiert und im Qualitätscheck veröffentlicht. UV, Scanner, Baumwollfaser: alles dokumentiert.',
+ why2_t:'GEBROCHENE KETTE',why2_d:'PayPal-Transfers laufen über Dritt-Exchanges: der Empfänger sieht den ursprünglichen Sender nie.',
+ why3_t:'KRYPTO-ABWICKLUNG',why3_d:'SOL, BTC, LTC. Echte Netzgebühren, eigener QR, Memo, Bestätigungstracker.',
+ why4_t:'PGP + HASHES',why4_d:'Jede Bestellung erzeugt ein Manifest mit Zeilen-Hashes und PGP-Signaturvorschau.',
+ sec_flow:'SO FUNKTIONIERT ES',flow1:'WÄHLEN',flow2:'PRÜFEN',flow3:'ZAHLEN',flow4:'ERHALTEN',
+ flow1_d:'Banknoten oder PayPal-Guthaben in den Warenkorb.',flow2_d:'Manifest mit Hashes und Checksum prüfen.',
+ flow3_d:'Krypto, SEPA-Instant-Überweisung oder Amazon-Gutscheine.',flow4_d:'Verfolgter Versand oder Guthabenbuchung.',
+ price_hint:'PREIS IM WARENKORB',add:'HINZUFÜGEN',pcs:'Stück',in_cart:'im Warenkorb',
+ badge_grade:'GRADE AAA+',badge_uv:'UV 100%',badge_scan:'SCANNER PASS',badge_fiber:'BAUMWOLLFASER',
+ cash_title:'BANKNOTEN-KATALOG',cash_sub:'Stückelungen 20 und 50 EUR. Preise nur im Warenkorb.',
+ paypal_title:'PAYPAL-TRANSFERS',paypal_sub:'Du zahlst, das Guthaben kommt. Über Dritt-Exchange: Senderkette gebrochen.',
+ paypal_note:'Das Verhältnis gezahlt/erhalten ist fix. Du bekommst eine PayPal-Anforderung, zahlst, das Guthaben wird weitergeleitet.',
+ pp_pay:'DU ZAHLST',pp_recv:'DU ERHÄLTST',
+ p_b20_25:'ENTRY LEVEL',d_b20_25:'Einstiegslos: 25 Scheine à 20 EUR. Ideal für den ersten Qualitätstest.',
+ p_b20_75:'OPERATIVER BESTAND',d_b20_75:'75 Scheine à 20 EUR. Perfekte Balance zwischen Volumen und gebundenem Kapital.',
+ p_b20_200:'INDUSTRIEVOLUMEN',d_b20_200:'200 Scheine à 20 EUR. Bestes Kosten-pro-Schein-Verhältnis.',
+ p_b50_15:'PACK STARTER 50',d_b50_15:'15 Scheine à 50 EUR, um ohne große Bindung einzusteigen.',
+ p_b50_50:'BANK RESERVE',d_b50_50:'50 Scheine à 50 EUR. Echte Reserve-Wertsdichte.',
+ p_b50_150:'ABSOLUTE KAUFKRAFT',d_b50_150:'150 Scheine à 50 EUR. Das schwerste Los im Katalog.',
+ pp_ase:'ASE',pd_ase:'Einstieg: zahle 120, erhalte 250 Guthaben.',
+ pp_adv:'ADVANCED',pd_adv:'Voller Multiplikator bei noch überschaubarer Summe.',
+ pp_vip:'VIP',pd_vip:'Nächster Schritt. Guthaben fast dreifach.',
+ pp_prem:'PREMIUM',pd_prem:'Hohe Stufe: zahle 450, erhalte 1100.',
+ pp_elite:'ELITE',pd_elite:'Für ernsthaftes Guthaben ohne Vierstelligkeit
